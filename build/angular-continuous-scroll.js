@@ -9,7 +9,7 @@
   'use strict';
 
   /**
-   * @namespace dc
+   * @namespace fw
    */
 
   /**
@@ -32,7 +32,7 @@
    * @description
    * A directive for implementing an endless scrolling list.
    */
-    .directive('continuousScroll', function( $window, $timeout ) {
+    .directive('continuousScroll', ['$window', '$timeout', function( $window, $timeout ) {
       var NG_REPEAT_REGEXP = /^\s*(.+)\s+in\s+([\r\n\s\S]*?)\s*(\s+track\s+by\s+(.+)\s*)?$/;
 
       /**
@@ -712,13 +712,13 @@
           return (new EndlessScrollerTemplate(element, attrs)).toString();
         },
 
-        controller: function( $scope, $element, $attrs ) {
+        controller: ['$scope', '$element', '$attrs', function( $scope, $element, $attrs ) {
           var endlessScroll = new EndlessScroller($scope, $element, $attrs);
 
           $scope._endlessScroll = endlessScroll;
 
           return endlessScroll;
-        }
+        }]
       };
-    });
+    }]);
 })();
