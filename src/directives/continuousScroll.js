@@ -580,7 +580,7 @@
                 height    = child.outerHeight();
                 top       = child.get(0) && this._getOffsetTop(child);
                 bottom    = top + height;
-                itemIndex = $.inArray(child.scope[0][ this.expression.item ], this.originalItems);
+                itemIndex = $.inArray(child[0].getScope()[ this.expression.item ], this.originalItems);
 
                 // Set reference to the dimension of each visible element
                 if (itemIndex > -1) {
