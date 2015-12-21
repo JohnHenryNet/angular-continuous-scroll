@@ -9,7 +9,7 @@
    * @description
    * A directive for implementing an endless scrolling list.
    */
-    .directive('continuousScroll', ['$window', '$timeout', function( $window, $timeout ) {
+    .directive('continuousScroll', ['$window', '$timeout', '$compile', function( $window, $timeout, $compile ) {
       var NG_REPEAT_REGEXP = /^\s*(.+)\s+in\s+([\r\n\s\S]*?)\s*(\s+track\s+by\s+(.+)\s*)?$/;
 
       /**
@@ -676,6 +676,7 @@
 
         // Retain reference to the original repeat expression
         element.attr('ng-repeat', ngRepeatExp);
+        element.attr('data-exposes-scope', '');
 
         return element.prop('outerHTML');
       };
@@ -684,6 +685,8 @@
         restrict: 'A',
         scope: true,
         replace: true,
+        terminal: true,
+        priority: 1000,
 
         template: function( element, attrs ) {
           return (new EndlessScrollerTemplate(element, attrs)).toString();

@@ -1,5 +1,5 @@
 /*!
- * angular-continuous-scroll.js v0.1.3
+ * angular-continuous-scroll.js v0.1.4
  * https://github.com/fabianweb/angular-continuous-scroll
  * Original work Copyright 2014 David Chin
  * Modified work Copyright 2015 Fabian Pirklbauer
@@ -32,7 +32,7 @@
    * @description
    * A directive for implementing an endless scrolling list.
    */
-    .directive('continuousScroll', ['$window', '$timeout', function( $window, $timeout ) {
+    .directive('continuousScroll', ['$window', '$timeout', '$compile', function( $window, $timeout, $compile ) {
       var NG_REPEAT_REGEXP = /^\s*(.+)\s+in\s+([\r\n\s\S]*?)\s*(\s+track\s+by\s+(.+)\s*)?$/;
 
       /**
@@ -699,6 +699,7 @@
 
         // Retain reference to the original repeat expression
         element.attr('ng-repeat', ngRepeatExp);
+        element.attr('data-exposes-scope', '');
 
         return element.prop('outerHTML');
       };
@@ -707,6 +708,8 @@
         restrict: 'A',
         scope: true,
         replace: true,
+        terminal: true,
+        priority: 1000,
 
         template: function( element, attrs ) {
           return (new EndlessScrollerTemplate(element, attrs)).toString();
@@ -721,4 +724,29 @@
         }]
       };
     }]);
+})();
+
+(function () {
+  'use strict';
+
+  angular.module('fw.continuousScroll')
+
+  /**
+   * @member fw.continuousScroll.exposesScope
+   *
+   * @description
+   * A directive for an element to expose it's scope variable
+   * element[0].getScope() to access the scope with
+   * debug info disabled.
+   */
+    .directive('exposesScope', function () {
+
+      return {
+        link: function link(scope, element, attrs) {
+          element[0].getScope = function () {
+          return scope;
+        };
+      }
+    };
+  });
 })();
