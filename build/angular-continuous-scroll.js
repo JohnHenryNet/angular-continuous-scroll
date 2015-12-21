@@ -1,5 +1,5 @@
 /*!
- * angular-continuous-scroll.js v0.1.5
+ * angular-continuous-scroll.js v0.1.6
  * https://github.com/fabianweb/angular-continuous-scroll
  * Original work Copyright 2014 David Chin
  * Modified work Copyright 2015 Fabian Pirklbauer
@@ -603,7 +603,7 @@
                 height    = child.outerHeight();
                 top       = child.get(0) && this._getOffsetTop(child);
                 bottom    = top + height;
-                itemIndex = $.inArray(child.scope()[ this.expression.item ], this.originalItems);
+                itemIndex = $.inArray(child.scope[0][ this.expression.item ], this.originalItems);
 
                 // Set reference to the dimension of each visible element
                 if (itemIndex > -1) {
