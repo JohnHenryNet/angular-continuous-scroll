@@ -94,7 +94,7 @@
         this.scope             = scope;
         this.attrs             = attrs;
         this.element           = $(element);
-        this.options           = angular.extend({}, defaultOptions, this.scope.$eval(this.attrs.scrollOpts));
+        this.options           = angular.extend({}, defaultOptions, this.scope.$eval(this.attrs.scrollerOpts));
         this.docWindow         = $($window);
         this.window            = this.options.window ? $(this.options.window) : this.docWindow;
         this.dimension         = { window: {}, parent: {}, items: [] };
@@ -247,6 +247,7 @@
 
           if (afterItems) {
             this.items.push.apply(this.items, afterItems);
+            this.dimension.items.push.apply(this.dimension.items, new Array(afterItems.length));
           }
         }
 
@@ -360,8 +361,8 @@
 
           // Determine first and last visible item
           angular.forEach(this.dimension.items, function( dimension, itemIndex ) {
-            var isVisible = dimension.bottom >= this.dimension.window.top - this.dimension.window.height &&
-              dimension.top <= this.dimension.window.bottom + this.dimension.window.height;
+            var isVisible = dimension.bottom >= (this.dimension.window.top - this.dimension.window.height) &&
+              dimension.top <= (this.dimension.window.bottom + this.dimension.window.height);
 
             // Set reference to item index
             if (isVisible) {
