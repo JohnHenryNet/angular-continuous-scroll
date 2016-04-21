@@ -46,30 +46,32 @@
        * Return a function that only gets executed once within a given time period.
        */
       function throttle( fn, delay ) {
-        var timeout,
-            previous = 0;
+        var timeout;
+        var then = new Date(Date.now() + delay);
 
         return function() {
-          var current   = new Date().getTime(),
-              remaining = delay - (current - previous),
-              args      = arguments;
+          var args = arguments,
+              now = new Date();
 
-          if (remaining <= 0) {
+          console.log('NOW', now);
+          console.log('THEN', then);
+
+          if (then <= now) {
             if (timeout) {
               $timeout.cancel(timeout);
             }
 
             timeout  = undefined;
-            previous = current;
+            then = new Date(Date.now() + delay);
 
             fn.apply(this, args);
           } else if (!timeout) {
             timeout = $timeout(function() {
-              timeout  = undefined;
-              previous = new Date().getTime();
+              timeout = undefined;
+              then = new Date(Date.now() + delay);
 
               fn.apply(this, args);
-            }, remaining);
+            }, delay);
           }
         };
       }
@@ -145,6 +147,7 @@
        */
       EndlessScroller.prototype.check = function check() {
         // Determine if scrolling up or down and if we reach the end of list or not
+        console.log('CHECKING');
         angular.extend(this.status, this._getScrollStatus());
 
         // Determine window dimension
