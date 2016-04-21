@@ -30,9 +30,6 @@
           var args = arguments,
               now = new Date();
 
-          console.log('NOW', now);
-          console.log('THEN', then);
-
           if (then <= now) {
             if (timeout) {
               $timeout.cancel(timeout);
@@ -109,7 +106,7 @@
         this.perPage           = parseInt(this.scope.perPage || this.options.perPage, 10);
         this.currentPage       = this.initialPage;
         this.updatedDefault    = { unshifted: false, unshiftedCount: 0, pushed: false, pushedCount: 0 };
-        this.updated           = this.updatedDefault;
+        this.updated           = JSON.parse(JSON.stringify(this.updatedDefault));
 
         // Watch for events and scope changes
         this._watch();
@@ -124,7 +121,7 @@
        */
       EndlessScroller.prototype.check = function check() {
         // Determine if scrolling up or down and if we reach the end of list or not
-        console.log('CHECKING');
+
         angular.extend(this.status, this._getScrollStatus());
 
         // Determine window dimension
@@ -418,7 +415,7 @@
         }
 
         // Reset info about added items
-        this.updated = this.updatedDefault;
+        this.updated = JSON.parse(JSON.stringify(this.updatedDefault));
       };
 
       /**
