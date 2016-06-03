@@ -144,7 +144,7 @@
        */
       EndlessScroller.prototype.check = function check() {
         // Determine if scrolling up or down and if we reach the end of list or not
-        console.log('CHECKING');
+
         angular.extend(this.status, this._getScrollStatus());
 
         // Determine window dimension
