@@ -1,5 +1,5 @@
 /*!
- * angular-continuous-scroll.js v0.1.8
+ * angular-continuous-scroll.js v0.1.12
  * https://github.com/fabianweb/angular-continuous-scroll
  * Original work Copyright 2014 David Chin
  * Modified work Copyright 2015-2016 Fabian Pirklbauer
@@ -374,8 +374,7 @@
           }
         }
 
-        if (this.dimension.items && this.originalItems &&
-          this.dimension.items.length === this.originalItems.length) {
+        if (this.dimension.items && this.originalItems && this.dimension.items.length === this.originalItems.length) {
 
           // Create placeholder in DOM if necessary
           if (this.initialized === false) {
@@ -411,17 +410,16 @@
             placeholderBottomHeight = 0;
           }
 
-          if (this.placeholder) {
-            this.placeholder.height(placeholderHeight);
-          }
-
-          if (this.placeholderBottom) {
-            this.placeholderBottom.height(placeholderBottomHeight);
-          }
 
           // Add to items
-          if (firstVisibleItemIndex !== undefined && lastVisibleItemIndex !== undefined &&
-            angular.isArray(this.items) && angular.isArray(this.originalItems)) {
+          if (firstVisibleItemIndex !== undefined && lastVisibleItemIndex !== undefined && angular.isArray(this.items) && angular.isArray(this.originalItems)) {
+            if (this.placeholder) {
+              this.placeholder.height(placeholderHeight);
+            }
+
+            if (this.placeholderBottom) {
+              this.placeholderBottom.height(placeholderBottomHeight);
+            }
 
             newItems = this.originalItems.slice(firstVisibleItemIndex, lastVisibleItemIndex + 1);
             this.items.splice.apply(this.items, [ 0, this.items.length ].concat(newItems));
@@ -433,12 +431,12 @@
             if (currentPage !== this.currentPage) {
               this.scope.$emit('scroller.page:update', this);
             }
-
           }
-        }
 
-        // Reset info about added items
-        this.updated = JSON.parse(JSON.stringify(this.updatedDefault));
+          // Reset info about added items
+          this.updated = JSON.parse(JSON.stringify(this.updatedDefault));
+
+        }
       };
 
       /**
